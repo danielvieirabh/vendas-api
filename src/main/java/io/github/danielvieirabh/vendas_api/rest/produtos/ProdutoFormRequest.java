@@ -1,16 +1,44 @@
 package io.github.danielvieirabh.vendas_api.rest.produtos;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.github.danielvieirabh.vendas_api.model.Produto;
+
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 
 public class ProdutoFormRequest { //Isso aqui e um DTO
+
+    private Long id;
     private String descricao;
     private String nome;
     private BigDecimal preco; //Ideal para valores monetores em porjetos back
     private String sku;
+    @JsonFormat(pattern = "dd/MM/yyyy" ) //formatar a data no banco
+    private LocalDate cadastro;
 
+    public ProdutoFormRequest() {}
 
+    public ProdutoFormRequest(Long id, String descricao, String nome, BigDecimal preco, String sku, LocalDate cadastro) {
+        this.id = id;
+        this.descricao = descricao;
+        this.nome = nome;
+        this.preco = preco;
+        this.sku = sku;
+        this.cadastro = cadastro;
+    }
 
+    public Produto toModel() {
+        return new Produto(nome, descricao, preco, sku);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
     public String getDescricao() {
         return descricao;
     }
@@ -43,13 +71,23 @@ public class ProdutoFormRequest { //Isso aqui e um DTO
         this.sku = sku;
     }
 
+
+    public LocalDate getCadastro() {
+        return cadastro;
+    }
+
+    public void setCadastro(LocalDate cadastro) {
+        this.cadastro = cadastro;
+    }
+
     @Override
     public String toString() {
         return "ProdutoFormRequest{" +
-                "sku='" + sku + '\'' +
-                ", preco=" + preco +
-                ", nome='" + nome + '\'' +
+                "id=" + id +
                 ", descricao='" + descricao + '\'' +
+                ", nome='" + nome + '\'' +
+                ", preco=" + preco +
+                ", sku='" + sku + '\'' +
                 '}';
     }
 }

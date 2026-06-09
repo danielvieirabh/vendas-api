@@ -3,6 +3,7 @@ package io.github.danielvieirabh.vendas_api.model;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "produto")
@@ -17,6 +18,7 @@ public class Produto {
     @Column(precision = 16, scale = 2) //O numero pode ter a 16 posicoes e 2 casas decimais , 14 numeros a esquerda e 2 depois da virgula
     private BigDecimal preco;
     private String sku;
+    private LocalDate dataCadastro;
 
     public Produto() {
 
@@ -27,6 +29,20 @@ public class Produto {
         this.descricao = descricao;
         this.preco = preco;
         this.sku = sku;
+    }
+
+    public Produto(Long id, String nome, String descricao, BigDecimal preco, String sku, LocalDate dataCadastro) {
+        this.id = id;
+        this.nome = nome;
+        this.descricao = descricao;
+        this.preco = preco;
+        this.sku = sku;
+        this.dataCadastro = dataCadastro;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        setDataCadastro(LocalDate.now());
     }
 
     public Long getId() {
@@ -67,6 +83,14 @@ public class Produto {
 
     public void setSku(String sku) {
         this.sku = sku;
+    }
+
+    public LocalDate getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(LocalDate dataCadastro) {
+        this.dataCadastro = dataCadastro;
     }
 
     @Override
